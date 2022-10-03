@@ -1,0 +1,6 @@
+{
+    "watch": ["api"],
+    "ext": ".ts, .js",
+    "ingnore": [],
+    "exec": "ts-node ./connection/index.ts"
+}
