@@ -5,10 +5,20 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
 import post from "./routes/index";
+import passport from "passport";
+import session from "express-session"
+import bodyParser from "body-parser";
+const app = express();
+import router from "./routes/auth"
+import {passportFunction} from "./config/passport/passport"
+import passportRoute from "./routes/auth"
+
+import db from "./models"
+const {User} = db
+
 
 //require('dotenv').config({ path: __dirname+'/.env' });
 
-const app = express();
 app.use(cors());
 
 // view engine setup
@@ -22,9 +32,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/users", post);
+//app.use("/auth", router);
+
+ 
+
 
 // Swagger config
 
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true, 
+  saveUninitialized:true
+  })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); 
+
+passportRoute(app, passport)
+passportFunction(User, passport, )
+// require("./config/passport/passport")(passport)
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: (arg0: any) => void) {
   next(createError(404));
@@ -43,3 +68,7 @@ app.use( (err: any, req: any, res: any) => {
 });
 
 module.exports = app;
+function flash(): any {
+  throw new Error("Function not implemented.");
+}
+

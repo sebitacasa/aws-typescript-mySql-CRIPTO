@@ -5,12 +5,18 @@ interface UserAttributes {
   id: string;
   firstName: string;
   lastName: string;
+  userName: string;
   email: string;
   password: string;
+
 }
-module.exports = (sequelize: any, DataTypes: {
-  UUID: DataType; STRING: any 
-}) => {
+module.exports = (
+  sequelize: any,
+  DataTypes: {
+    UUID: DataType;
+    STRING: any;
+  }
+) => {
   class User extends Model<UserAttributes> {
     /**
      * Helper method for defining associations.
@@ -21,6 +27,7 @@ module.exports = (sequelize: any, DataTypes: {
     id!: string;
     firstName!: string;
     lastName!: string;
+    userName!: string;
     email!: string;
     password!: string;
     static associate(models: any) {
@@ -39,6 +46,7 @@ module.exports = (sequelize: any, DataTypes: {
       },
       firstName: { type: DataTypes.STRING, allowNull: false },
       lastName: { type: DataTypes.STRING, allowNull: false },
+      userName: { type: DataTypes.STRING, allowNull: false },
       email: { type: DataTypes.STRING, allowNull: false, unique: true },
       password: { type: DataTypes.STRING, allowNull: false },
     },

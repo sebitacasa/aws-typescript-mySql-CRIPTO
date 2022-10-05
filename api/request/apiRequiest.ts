@@ -2,6 +2,7 @@ import axios from "axios";
 import { CriptoOuput } from "../models/cripto";
 import db from "../models";
 const { Cripto } = db;
+require('dotenv').config()
 
 const apiCall = async () => {
   const options = {
