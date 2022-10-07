@@ -1,14 +1,16 @@
 import * as  constrollers  from "../controllers/authController";
 import express from "express"
 const router = express.Router()
-import {signup} from "../controllers/authController"
+import {signup, login} from "../controllers/authController"
 
 
-const passportRoute =  (app: any, passport: any) => {
+const passportRoute =  (app: any) => {
 
-    app.get('/signup', signup);
-    app.get('/signin', signup);
-    app.post('/signup', passport.authenticate('local-signup'));
+    //app.get('/signup', signup);
+    app.post('/sigup', signup);
+    app.post("/login", login)
+    // app.post('/signup', passport.authenticate('local-signup'));
+    
 }
 
 

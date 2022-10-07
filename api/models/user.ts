@@ -10,6 +10,8 @@ interface UserAttributes {
   password: string;
 
 }
+
+export interface  UserOuput extends Required<UserAttributes> {}
 module.exports = (
   sequelize: any,
   DataTypes: {
@@ -30,11 +32,11 @@ module.exports = (
     userName!: string;
     email!: string;
     password!: string;
-    static associate(models: any) {
-      User.belongsToMany(models.Cripto, {
-        through: "ProjectAssignments",
-      });
-    }
+    // static associate(models: any) {
+    //   User.belongsToMany(models.Cripto, {
+    //     through: "ProjectAssignments",
+    //   });
+    // }
   }
   User.init(
     {

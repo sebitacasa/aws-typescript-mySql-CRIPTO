@@ -1,0 +1,31 @@
+.body{
+    
+    
+    /* background-image: 
+  linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+  url('../images/pexels-wendy-wei-1916821\(1\).jpg');  */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+    
+  height: 100%;   
+  
+  
+  }
+
+.cards{
+    display: grid;
+    
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 350px);
+    padding: 45px;
+    gap: 35px;
+    margin-top: 7px;
+    text-decoration: none;
+    
+    
+    
+    }
+

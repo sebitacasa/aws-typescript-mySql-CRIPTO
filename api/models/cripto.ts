@@ -33,11 +33,11 @@ module.exports = (
     percent_change_24h?: string;
     price_btc!: string;
     market_cap_usd!: string;
-    static associate(models: any) {
-      Cripto.belongsToMany(models.User, {
-        through: "ProjectAssignments",
-      });
-    }
+    // static associate(models: any) {
+    //   Cripto.belongsToMany(models.User, {
+    //     through: "ProjectAssignments",
+    //   });
+    // }
   }
   Cripto.init(
     {

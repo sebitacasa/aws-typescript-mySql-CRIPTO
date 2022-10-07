@@ -7,10 +7,9 @@ import cors from "cors";
 import post from "./routes/index";
 import passport from "passport";
 import session from "express-session"
-import bodyParser from "body-parser";
 const app = express();
-import router from "./routes/auth"
-import {passportFunction} from "./config/passport/passport"
+//import router from "./routes/auth"
+import passportMiddleware from './config/passport/passport'
 import passportRoute from "./routes/auth"
 
 import db from "./models"
@@ -27,6 +26,7 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -34,7 +34,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/users", post);
 //app.use("/auth", router);
 
- 
+
+
 
 
 // Swagger config
@@ -46,9 +47,8 @@ app.use(session({
   })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); 
-
-passportRoute(app, passport)
-passportFunction(User, passport, )
+passport.use(passportMiddleware);
+passportRoute(app)
 // require("./config/passport/passport")(passport)
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: (arg0: any) => void) {
