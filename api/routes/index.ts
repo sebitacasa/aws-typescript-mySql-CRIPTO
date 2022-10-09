@@ -7,7 +7,7 @@ import passport from 'passport';
 
 router.get("/:id", getCriptosById)
 router.get("/",  getCriptos)
-router.post("/", addUsers)
+router.post("/add", addUsers)
 
 router.post(
     '/signup',

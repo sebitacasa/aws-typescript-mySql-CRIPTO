@@ -13,6 +13,10 @@ const reducer = (state: any  = initialState, action: Action): any => {
             ...state,
             getCripto: action.payload
         }
+        case ActionType.SING_IN:
+            return {
+              ...state,
+            };
 
         default:
             return state

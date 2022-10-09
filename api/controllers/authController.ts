@@ -55,7 +55,7 @@ const login = async (req: Request, res: any) => {
           }
         );
 
-        res.status(200).send(token);
+        res.status(200).send({token: token});
       }
     }
   } catch (error) {
