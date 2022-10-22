@@ -1,21 +1,39 @@
+import { Request } from "express";
 import db from "../../models";
 const {User} = db
-import { Strategy, ExtractJwt, StrategyOptions } from "passport-jwt";
-import config from "../configJwt"
 
-const opts: StrategyOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.secret
-};
+const bcrypt = require("bcrypt");
+const LocalStrategy = require("passport-local").Strategy;
 
-export default new Strategy(opts, async (payload, done) => {
-  try {
-    const user = await User.findByPk(payload.id);
-    if (user) {
-      return done(null, user);
+export default function initialize ( passport: any ) {
+    const authenticateUser = async (req: any, email: any, password: any, done: any) => {
+        const user = await User.findOne({where: {email: email}})
+        if(user == null){
+            return done(null, false, {message: "No user with that email"})
+        }  try {
+            if(await bcrypt.compare(password, user.password)) {
+                return done(null, user)
+            } else {
+                return done(null, false, {message: "Password incorrect"})
+            }
+        } catch (error) {
+            return done(error)
+        }
+
     }
-    return done(null, false);
-  } catch (error) {
-    console.log(error);
-  }
-});
+
+    passport.use(new LocalStrategy({usernameField: "email", passReqToCallback:true},
+    authenticateUser))
+    passport.serializeUser((user: any, done: any) => {done(null, user.id)})
+
+    passport.deserializeUser(async function (id: any, done: any) {
+       const user = await User.findByPk(id)
+       
+            if (user) {
+                done(null, user.get());
+            } else {
+                done(user.errors, null);
+            }
+        });
+};
+    //passport.deserializeUser((user: any, done: any) => {done(null, user.id)})

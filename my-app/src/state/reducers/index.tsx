@@ -1,9 +1,14 @@
 import { combineReducers } from "redux";
-import reducer from "./reducer"
+import reducerGames from "./reducer"
+import reducerAnime from "./reducerAnime"
+import reducerGot from "./reducerGot";
 
 
 const reducers = combineReducers({
-    cripto: reducer
+    videoGames: reducerGames,
+    animeArray: reducerAnime,
+    gotReducers: reducerGot
+
 })
 
 export default reducers

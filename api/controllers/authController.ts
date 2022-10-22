@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import configJwt from "../config/configJwt";
+import passport from "passport";
 
 const signup = async (req: Request, res: any): Promise<UserOuput> => {
   if (!req.body.email && !req.body.password) {
@@ -31,36 +32,21 @@ const signup = async (req: Request, res: any): Promise<UserOuput> => {
   }
 };
 
-const login = async (req: Request, res: any) => {
-  try {
-    if (!req.body.email && !req.body.password) {
-      return res.status(400).send("email and password are necessary");
-    } else {
-      const user = await User.findOne({
-        where: { email: req.body.email },
+const login = async (req: Request, res:Response, next: any) => {
+  passport.authenticate("local", (err: any, user: any, info: any) => {
+    if (err) throw err;
+    if (!user) res.send("No User Exists");
+    else {
+      req.logIn(user, (err: any) => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+        console.log(req.user);
       });
-      if (Object.entries(user).length === 0) {
-        return res
-          .status(400)
-          .send("email or password are incorrect, try again");
-      } else if (
-        user &&
-        (await bcrypt.compare(req.body.password, user.password))
-      ) {
-        let token = jwt.sign(
-          { id: user.id, email: user.email },
-          configJwt.secret,
-          {
-            expiresIn: configJwt.expires,
-          }
-        );
-
-        res.status(200).send({token: token});
-      }
     }
-  } catch (error) {
-    res.status(404).send(error);
-  }
-};
+  })(req, res, next);
+}
+
+
+
 
 export { signup, login };

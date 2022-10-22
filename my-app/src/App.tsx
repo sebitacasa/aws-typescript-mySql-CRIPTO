@@ -1,27 +1,25 @@
-import React from 'react';
-import './App.css';
-import Home from './components/home';
-import SignInSide from './components/signin';
-import SignUp from './components/signup';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import * as React from "react";
+
+// 1. import `ChakraProvider` component
+import { ChakraProvider } from "@chakra-ui/react";
+
+import Home from "./components/LandingPage/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomeAnime from "./components/mainPageAnime/HomeAnime";
+import HomeGame from "./components/mainPageGames/HomeGame";
 
 function App() {
-
-
-
-  
- 
-  
- 
-
+  // 2. Wrap ChakraProvider at the root of your app
   return (
     <BrowserRouter>
-    <Routes>
-      <Route  path="/" element={<SignInSide />} />
-      <Route  path="/singup" element={<SignUp />} />
-      <Route  path="/home" element={<Home/>} />
-   </Routes>
-  </BrowserRouter>
+      <ChakraProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/homeAnime" element={<HomeAnime />} />
+          <Route path="/homeGame" element={<HomeGame />} />
+        </Routes>
+      </ChakraProvider>
+    </BrowserRouter>
   );
 }
 

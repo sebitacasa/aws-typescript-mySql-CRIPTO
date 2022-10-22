@@ -7,18 +7,25 @@ import cors from "cors";
 import post from "./routes/index";
 import passport from "passport";
 import session from "express-session"
+import flashs from "express-flash"
 const app = express();
+const passportLocal = require("passport-local").Strategy;
 //import router from "./routes/auth"
-import passportMiddleware from './config/passport/passport'
-import passportRoute from "./routes/auth"
-
-import db from "./models"
-const {User} = db
+//import passportMiddleware from './config/passport/passport'
+import {passportRoute} from "./routes/auth"
+import initialize from "./config/passport/passport"
+import passRouter from "./routes/index"
 
 
 //require('dotenv').config({ path: __dirname+'/.env' });
 
-app.use(cors());
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -31,15 +38,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/users", post);
-//app.use("/auth", router);
 
+//app.use("/auth", router);
+//require("./config/passport/passport")(passport)
 
 
 
 
 // Swagger config
-
+app.use(flashs())
 app.use(session({
   secret: 'keyboard cat',
   resave: true, 
@@ -47,8 +54,10 @@ app.use(session({
   })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); 
-passport.use(passportMiddleware);
-passportRoute(app)
+//passport.use(passportMiddleware);
+passportRoute(app, passport)
+initialize(passport)
+passRouter(app, passport)
 // require("./config/passport/passport")(passport)
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: (arg0: any) => void) {
@@ -75,7 +84,6 @@ app.use( (err: any, req: any, res: any) => {
 });
 
 module.exports = app;
-function flash(): any {
-  throw new Error("Function not implemented.");
-}
+
+
 

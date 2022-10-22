@@ -2,11 +2,12 @@ import { ActionType } from "../action-types/index"
 import { Action } from "../actions"
 
 const initialState = {
-    getCripto :  []
+    getCripto :  [],
+  
 }
 
-const reducer = (state: any  = initialState, action: Action): any => {
-    console.log(state, "fsafd")
+const reducerGames = (state: any  = initialState, action: Action): any => {
+    
     switch (action.type){
         case ActionType.GET_CRIPTO:
            return {
@@ -17,10 +18,10 @@ const reducer = (state: any  = initialState, action: Action): any => {
             return {
               ...state,
             };
-
+      
         default:
             return state
     }
 }
 
-export default reducer
+export default reducerGames

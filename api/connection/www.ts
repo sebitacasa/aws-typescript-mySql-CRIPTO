@@ -11,7 +11,7 @@
  //const loggerr = require('../loaders/logger/index');
  import db from "../models/index"
  const user = require("../models/user")
- import apiCall from "../request/apiRequiest"
+ import {apiCall} from "../request/apiRequiest"
  
 
  /**
@@ -35,6 +35,7 @@
    const force = process.env.FORCE_SYNC_DB === 'true';
    await db.sequelize.sync({force}).then(() => console.log('db synced'))
    await apiCall()
+  
    
    
    
